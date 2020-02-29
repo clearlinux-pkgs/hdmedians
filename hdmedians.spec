@@ -4,7 +4,7 @@
 #
 Name     : hdmedians
 Version  : 0.13
-Release  : 4
+Release  : 5
 URL      : https://files.pythonhosted.org/packages/df/19/b8c304859fa12a71eeadd2e90a7f19000c3f1281be370f035a9fce3b014f/hdmedians-0.13.tar.gz
 Source0  : https://files.pythonhosted.org/packages/df/19/b8c304859fa12a71eeadd2e90a7f19000c3f1281be370f035a9fce3b014f/hdmedians-0.13.tar.gz
 Summary  : High-dimensional medians
@@ -35,6 +35,7 @@ python components for the hdmedians package.
 Summary: python3 components for the hdmedians package.
 Group: Default
 Requires: python3-core
+Provides: pypi(hdmedians)
 
 %description python3
 python3 components for the hdmedians package.
@@ -42,13 +43,23 @@ python3 components for the hdmedians package.
 
 %prep
 %setup -q -n hdmedians-0.13
+cd %{_builddir}/hdmedians-0.13
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556217329
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1582934516
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
